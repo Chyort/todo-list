@@ -1,7 +1,7 @@
 import 'materialize-css/dist/css/materialize.min.css';
 import React, { Component } from 'react';
 import AddItem from './add_item';
-import List from './list';
+import List from './list/index';
 import axios from 'axios';
 
 class App extends Component {
