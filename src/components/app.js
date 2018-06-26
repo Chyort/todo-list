@@ -30,6 +30,13 @@ class App extends Component {
         }
     }
 
+    async deleteItem(id){
+        const resp = await axios.delete(`${this.base_url}/todos/${id}${this.api_key}`);
+
+        this.getListData();
+
+    }
+
     async getListData(){
 
         try {
@@ -51,7 +58,7 @@ class App extends Component {
             <div className="container">
                 <h1 className="center">To Do List</h1>
                 <AddItem add={this.addItem.bind(this)}/>
-                <List data={this.state.list}/>
+                <List data={this.state.list} delete={this.deleteItem.bind(this)}/>
             </div>
         );
     }
