@@ -2,7 +2,7 @@ import 'materialize-css/dist/css/materialize.min.css';
 import React, { Component } from 'react';
 import AddItem from './add_item';
 import List from './list';
-import listData from '../data/list';
+import axios from 'axios';
 
 class App extends Component {
     constructor(props){
@@ -11,24 +11,37 @@ class App extends Component {
         this.state = {
             list: []
         };
+
+        this.base_url = 'http://api.reactprototypes.com';
+        this.api_key = '?key=blabbermouth';
     }
 
     componentDidMount(){
         this.getListData();
     }
 
-    addItem(item){
-        this.setState({
-            list: [item, ...this.state.list]
-        });
+    async addItem(item){
+        try{
+            const resp = await axios.post(`${this.base_url}/todos${this.api_key}`, item);
+
+            this.getListData();
+        } catch (err) {
+            console.log('Error adding item:', err.response.data.error);
+        }
     }
 
-    getListData(){
-        //Make call to server to get data
+    async getListData(){
 
-        this.setState({
-            list: listData
-        });
+        try {
+            const resp = await axios.get(`${this.base_url}/todos${this.api_key}`);
+
+            this.setState({
+                list: resp.data.todos
+            });
+        } catch (err) {
+            console.log('Get Data Error:', err.message);
+        }
+
     }
 
     render(){
